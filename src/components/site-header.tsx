@@ -15,7 +15,8 @@ import Image from "next/image";
 export function SiteHeader() {
   const navLinks = [
     { href: "/menu", label: "Menu" },
-    { href: "/reserve", label: "Reserve" },
+    { href: "/order", label: "Order" },
+    { href: "/space", label: "Space" },
     { href: "/events", label: "Events" },
     { href: "/news", label: "News" },
     { href: "/about", label: "About" },
