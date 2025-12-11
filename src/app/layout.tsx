@@ -1,13 +1,13 @@
-import type { Metadata } from "next";
-import "./globals.css";
-import { ThemeProvider } from "next-themes";
-import { Toaster } from "@/components/ui/sonner";
-import clsx from "clsx";
+import { Toaster } from '@/components/ui/sonner';
+import clsx from 'clsx';
+import type { Metadata } from 'next';
+import { ThemeProvider } from 'next-themes';
+import './globals.css';
 
 export const metadata: Metadata = {
-  title: "Café Lunaire",
-  description: "Café Lunaire Official Homepage",
-  icons: { icon: "/favicon.ico" },
+  title: 'Café Lunaire',
+  description: 'Café Lunaire Official Homepage',
+  icons: { icon: '/favicon.ico' },
 };
 
 export default function RootLayout({
@@ -17,8 +17,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko" suppressHydrationWarning>
-      <body className={clsx("min-h-dvh bg-moon-50 text-ink-900 antialiased")}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      <body
+        className={clsx('bg-background text-foreground min-h-dvh antialiased')}
+      >
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          forcedTheme="dark"
+          disableTransitionOnChange
+        >
           {children}
           <Toaster />
         </ThemeProvider>
