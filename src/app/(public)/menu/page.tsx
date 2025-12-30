@@ -1,13 +1,16 @@
-import { MenuTabs } from "./_components/menu-tabs";
+import { getAllMenuItems } from '@/domain/menu/menu.service';
+import { MenuTabs } from './_components/menu-tabs';
 
-export default function MenuPage() {
+export default async function MenuPage() {
+  const items = await getAllMenuItems();
+
   return (
-    <main className="container py-10 mx-auto px-4 md:px-6">
+    <main className="container mx-auto px-4 py-10 md:px-6">
       <h1 className="font-display text-4xl">Menu</h1>
-      <p className="mt-2 text-muted-foreground">
+      <p className="text-muted-foreground mt-2">
         낮은 커피와 브런치, 밤은 칵테일과 와인을 즐겨보세요.
       </p>
-      <MenuTabs />
+      <MenuTabs items={items} />
     </main>
   );
 }

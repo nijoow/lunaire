@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 import { DataTable } from '@/components/admin/data-table';
-import { MENU_ITEMS } from '@/domain/menu/data';
+import { getAllMenuItems } from '@/domain/menu/menu.service';
 import { columns } from './_components/columns';
 
 export const metadata: Metadata = {
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default async function MenuPage() {
-  const data = MENU_ITEMS;
+  const data = await getAllMenuItems();
 
   return (
     <div className="flex-1 space-y-4 pt-6">

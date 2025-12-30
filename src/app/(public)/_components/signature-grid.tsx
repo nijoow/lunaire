@@ -1,8 +1,8 @@
-import { MENU_ITEMS } from '@/domain/menu/data';
+import { getSignatureMenuItems } from '@/domain/menu/menu.service';
 import Image from 'next/image';
 
-export function SignatureGrid() {
-  const signatures = MENU_ITEMS.filter((it) => it.signature);
+export async function SignatureGrid() {
+  const signatures = await getSignatureMenuItems();
 
   return (
     <section className="container py-14">

@@ -1,4 +1,6 @@
-export type Category = 'coffee' | 'non-coffee' | 'dessert';
+import type { Database } from '@/lib/database.types';
+
+export type Category = Database['public']['Enums']['category_name_type'];
 
 export type MenuItem = {
   id: string;
