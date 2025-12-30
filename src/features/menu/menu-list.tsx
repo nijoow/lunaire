@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import type { MenuItem } from '@/domain/menu/types';
 import { useCart } from '@/stores/cart';
+import Image from 'next/image';
 
 type Props = {
   items: MenuItem[];
@@ -24,9 +25,18 @@ export function MenuList({ items, mode = 'browse', onAddOverride }: Props) {
       {items.map((it) => (
         <Card key={it.id} className="shadow-card rounded-2xl p-5">
           <div
-            className="bg-muted/40 aspect-video w-full rounded-xl"
+            className="bg-muted/40 relative aspect-video w-full overflow-hidden rounded-xl"
             aria-hidden
-          />
+          >
+            {it.imageUrl && (
+              <Image
+                src={it.imageUrl}
+                alt={it.name}
+                fill
+                className="object-cover transition group-hover:scale-105"
+              />
+            )}
+          </div>
           <div className="mt-4 flex items-start justify-between gap-3">
             <div>
               <h3 className="text-lg font-semibold">{it.name}</h3>
@@ -37,6 +47,7 @@ export function MenuList({ items, mode = 'browse', onAddOverride }: Props) {
             <div className="flex gap-1">
               {it.signature && <Badge variant="outline">Signature</Badge>}
               {it.isNew && <Badge>New</Badge>}
+              {it.isBest && <Badge variant="secondary">Best</Badge>}
             </div>
           </div>
           <div className="mt-3 text-sm">₩{it.price.toLocaleString()}</div>

@@ -7,14 +7,7 @@ import { useCart } from '@/stores/cart';
 import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 
-const ORDER_CATEGORIES: Category[] = [
-  'coffee',
-  'non-coffee',
-  'brunch',
-  'cocktail',
-  'wine',
-  'etc',
-];
+const ORDER_CATEGORIES: Category[] = ['coffee', 'non-coffee', 'dessert'];
 export default function OrderPage() {
   const sp = useSearchParams();
   const setTable = useCart((s) => s.setTable);

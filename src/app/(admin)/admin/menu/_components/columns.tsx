@@ -1,8 +1,8 @@
 'use client';
-
 import { MenuItem } from '@/domain/menu/types';
 import { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
+import Image from 'next/image';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -23,10 +23,12 @@ export const columns: ColumnDef<MenuItem>[] = [
       const imageUrl = row.original.imageUrl;
       return imageUrl ? (
         <div className="relative h-10 w-16 overflow-hidden rounded-md">
-          <img
+          <Image
             src={imageUrl}
             alt={row.getValue('name')}
-            className="h-full w-full object-cover"
+            className="object-cover"
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         </div>
       ) : (
