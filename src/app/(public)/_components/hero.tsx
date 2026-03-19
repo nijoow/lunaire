@@ -13,18 +13,18 @@ export function Hero() {
 
         <div className="mt-8 flex flex-wrap gap-3">
           <Link
-            href="/reserve"
-            className="inline-flex items-center rounded-xl border border-primary px-5 py-3 hover:bg-primary hover:text-primary-foreground transition"
-            aria-label="Reserve a table or book a space"
-          >
-            Reserve
-          </Link>
-          <Link
             href="/menu"
-            className="inline-flex items-center rounded-xl bg-primary text-primary-foreground px-5 py-3 hover:opacity-95 transition"
+            className="inline-flex items-center rounded-xl bg-primary px-6 py-3 text-primary-foreground transition hover:opacity-90"
             aria-label="View our menu"
           >
             View Menu
+          </Link>
+          <Link
+            href="/order"
+            className="inline-flex items-center rounded-xl border border-input px-6 py-3 transition hover:bg-accent"
+            aria-label="Order online"
+          >
+            Order Online
           </Link>
         </div>
       </div>

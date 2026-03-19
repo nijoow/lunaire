@@ -52,12 +52,6 @@ export function SiteHeader() {
 
         {/* Actions + Mobile Nav */}
         <div className="flex items-center justify-end gap-2">
-          <Link href="/reserve" className="hidden md:flex">
-            <Button size="sm" variant="outline" className="rounded-xl">
-              Book Now
-            </Button>
-          </Link>
-
           <CartSheet />
 
           {/* Mobile Menu */}
@@ -87,11 +81,6 @@ export function SiteHeader() {
                     {link.label}
                   </Link>
                 ))}
-              </div>
-              <div className="mx-4 my-3 mt-auto pt-6">
-                <Link href="/reserve">
-                  <Button className="w-full rounded-xl">Book Now</Button>
-                </Link>
               </div>
             </SheetContent>
           </Sheet>

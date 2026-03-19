@@ -4,7 +4,7 @@ export function TodayBanner() {
   // TODO: DB/설정 연동
   const isOpen = true;
   const hours = "Weekdays 10:00–22:00 · Weekends 12:00–24:00";
-  const today = "오늘 19:00 — Moonflower Live (예약 권장)";
+  const today = "오늘 19:00 — Moonflower Live";
 
   return (
     <section className="border-b bg-secondary/40 w-full">
