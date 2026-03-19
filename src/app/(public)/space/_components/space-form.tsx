@@ -74,7 +74,7 @@ export function SpaceForm() {
     }
   }, [values]);
 
-  async function onSubmit(v: SpaceInput) {
+  async function onSubmit() {
     // TODO: 가용성 체크 & 생성 API
     // const res = await fetch("/api/space", { method:"POST", body: JSON.stringify(v) })
     toast.success('대여 요청이 접수되었습니다.');
