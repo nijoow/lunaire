@@ -1,43 +1,44 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Menu } from "lucide-react";
+import { Button } from '@/components/ui/button';
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet";
-import Image from "next/image";
+} from '@/components/ui/sheet';
+import { Menu } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { CartSheet } from './cart-sheet';
 
 export function SiteHeader() {
   const navLinks = [
-    { href: "/menu", label: "Menu" },
-    { href: "/order", label: "Order" },
-    { href: "/space", label: "Space" },
-    { href: "/events", label: "Events" },
-    { href: "/news", label: "News" },
-    { href: "/about", label: "About" },
+    { href: '/menu', label: 'Menu' },
+    { href: '/order', label: 'Order' },
+    { href: '/space', label: 'Space' },
+    { href: '/events', label: 'Events' },
+    { href: '/news', label: 'News' },
+    { href: '/about', label: 'About' },
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/70 backdrop-blur px-4 md:px-6">
-      <div className="w-full flex h-14 items-center justify-between">
+    <header className="bg-background/70 sticky top-0 z-50 w-full border-b px-4 backdrop-blur md:px-6">
+      <div className="flex h-14 w-full items-center justify-between">
         {/* Logo */}
         <Link
           href="/"
-          className="font-display text-lg items-center flex gap-2 w-[180px]"
+          className="font-display flex w-[180px] items-center gap-2 text-lg"
         >
-          <div className="aspect-[775/598] w-14 relative">
+          <div className="relative aspect-[775/598] w-14">
             <Image src="/symbol.webp" alt="Cafe Lunaire logo" fill priority />
           </div>
           <span>Café Lunaire</span>
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden gap-6 md:flex text-sm">
+        <nav className="hidden gap-6 text-sm md:flex">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -50,12 +51,14 @@ export function SiteHeader() {
         </nav>
 
         {/* Actions + Mobile Nav */}
-        <div className="flex items-center gap-2 justify-end">
-          <Link href="/reserve" className="hidden w-[180px] md:flex">
-            <Button size="sm" variant="outline" className="ml-auto rounded-xl">
+        <div className="flex items-center justify-end gap-2">
+          <Link href="/reserve" className="hidden md:flex">
+            <Button size="sm" variant="outline" className="rounded-xl">
               Book Now
             </Button>
           </Link>
+
+          <CartSheet />
 
           {/* Mobile Menu */}
           <Sheet>
@@ -74,18 +77,18 @@ export function SiteHeader() {
                 <SheetTitle />
               </SheetHeader>
 
-              <div className="mt-8 flex flex-col gap-6 mx-4">
+              <div className="mx-4 mt-8 flex flex-col gap-6">
                 {navLinks.map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
-                    className="text-lg font-medium hover:text-primary"
+                    className="hover:text-primary text-lg font-medium"
                   >
                     {link.label}
                   </Link>
                 ))}
               </div>
-              <div className="mt-auto pt-6 mx-4 my-3">
+              <div className="mx-4 my-3 mt-auto pt-6">
                 <Link href="/reserve">
                   <Button className="w-full rounded-xl">Book Now</Button>
                 </Link>
