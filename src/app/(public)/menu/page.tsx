@@ -1,6 +1,7 @@
 import { getAllMenuItems } from '@/domain/menu/menu.service';
 import { MenuSkeleton } from '@/features/menu/menu-skeleton';
 import { Suspense } from 'react';
+import { MenuFiltersFallback } from './_components/menu-filters-fallback';
 import { MenuTabs } from './_components/menu-tabs';
 
 export default function MenuPage() {
@@ -24,22 +25,11 @@ async function MenuTabsFetcher() {
   return <MenuTabs items={items} />;
 }
 
-import { Category } from '@/domain/menu/types';
-import { MenuFilters } from '@/features/menu/menu-filters';
-
 // 로딩 상태일 때 보여줄 폴백 컴포넌트
 function MenuTabsFallback() {
-  const CATEGORIES: Category[] = ['coffee', 'non-coffee', 'dessert'];
-
   return (
     <div>
-      <div className="pointer-events-none mt-6 opacity-50">
-        <MenuFilters
-          category="all"
-          setCategory={() => {}}
-          categories={CATEGORIES}
-        />
-      </div>
+      <MenuFiltersFallback />
       <div className="bg-border my-6 h-[1px]" />
       <MenuSkeleton />
     </div>

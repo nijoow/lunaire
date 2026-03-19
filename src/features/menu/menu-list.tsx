@@ -17,7 +17,11 @@ export function MenuList({ items, mode = 'browse', onAddOverride }: Props) {
 
   const handleAdd = (it: MenuItem) => {
     const payload = { id: it.id, name: it.name, price: it.price };
-    onAddOverride ? onAddOverride(payload) : add(payload);
+    if (onAddOverride) {
+      onAddOverride(payload);
+    } else {
+      add(payload);
+    }
   };
 
   return (
