@@ -15,14 +15,12 @@ export function Hero() {
           <Link
             href="/menu"
             className="inline-flex items-center rounded-xl bg-primary px-6 py-3 text-primary-foreground transition hover:opacity-90"
-            aria-label="View our menu"
           >
             View Menu
           </Link>
           <Link
             href="/order"
             className="inline-flex items-center rounded-xl border border-input px-6 py-3 transition hover:bg-accent"
-            aria-label="Order online"
           >
             Order Online
           </Link>

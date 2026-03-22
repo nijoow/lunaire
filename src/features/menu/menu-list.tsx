@@ -80,6 +80,7 @@ export const MenuList = ({ items, mode = 'browse' }: Props) => {
 
             {mode === 'order' && (
               <button
+                type="button"
                 className="hover:bg-primary hover:text-primary-foreground mt-4 w-full rounded-xl border px-4 py-2 text-sm font-medium transition"
                 onClick={() => handleAdd(it)}
               >

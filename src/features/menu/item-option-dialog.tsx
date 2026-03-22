@@ -91,29 +91,36 @@ const ChipGroup = <T extends string>({
   options,
   value,
   onChange,
-}: ChipGroupProps<T>) => (
-  <div>
-    <p className="text-muted-foreground mb-2 text-xs font-semibold tracking-wider uppercase">
-      {label}
-    </p>
-    <div className="flex flex-wrap gap-2">
-      {options.map((opt) => (
-        <button
-          key={opt.value}
-          type="button"
-          onClick={() => onChange(opt.value)}
-          className={
-            opt.value === value
-              ? 'border-primary bg-primary text-primary-foreground rounded-full border-2 px-4 py-1.5 text-sm transition'
-              : 'hover:bg-muted border-input rounded-full border px-4 py-1.5 text-sm transition'
-          }
-        >
-          {opt.label}
-        </button>
-      ))}
+}: ChipGroupProps<T>) => {
+  const labelId = `chip-group-${label}`;
+  return (
+    <div>
+      <p
+        id={labelId}
+        className="text-muted-foreground mb-2 text-xs font-semibold tracking-wider uppercase"
+      >
+        {label}
+      </p>
+      <div role="group" aria-labelledby={labelId} className="flex flex-wrap gap-2">
+        {options.map((opt) => (
+          <button
+            key={opt.value}
+            type="button"
+            aria-pressed={opt.value === value}
+            onClick={() => onChange(opt.value)}
+            className={
+              opt.value === value
+                ? 'border-primary bg-primary text-primary-foreground rounded-full border-2 px-4 py-1.5 text-sm transition'
+                : 'hover:bg-muted border-input rounded-full border px-4 py-1.5 text-sm transition'
+            }
+          >
+            {opt.label}
+          </button>
+        ))}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 // ────────────────────────────────────────────────────────────
 // 다이얼로그 컴포넌트

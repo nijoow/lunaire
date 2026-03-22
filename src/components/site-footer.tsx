@@ -1,6 +1,6 @@
 export function SiteFooter() {
   return (
-    <footer className="border-t px-4 md:px-6">
+    <footer aria-label="사이트 푸터" className="border-t px-4 md:px-6">
       <div className="container mx-auto grid grid-cols-1 gap-8 py-12 md:grid-cols-3">
         {/* Brand & Social */}
         <div className="space-y-4">

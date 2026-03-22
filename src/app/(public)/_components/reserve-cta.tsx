@@ -3,9 +3,9 @@ import Link from "next/link";
 
 export function ReserveCta() {
   return (
-    <section className="py-14">
+    <section className="py-14" aria-labelledby="space-cta-heading">
       <div className="container rounded-2xl border bg-background p-8 text-center shadow-card">
-        <h3 className="font-display text-2xl">Private Space Rental</h3>
+        <h2 id="space-cta-heading" className="font-display text-2xl">Private Space Rental</h2>
         <p className="mt-2 text-muted-foreground">
           워크샵, 파티, 또는 소규모 모임을 위한 프라이빗 공간을 대여해보세요.
         </p>

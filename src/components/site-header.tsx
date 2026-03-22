@@ -38,7 +38,7 @@ export function SiteHeader() {
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden gap-6 text-sm md:flex">
+        <nav aria-label="메인 내비게이션" className="hidden gap-6 text-sm md:flex">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -68,7 +68,7 @@ export function SiteHeader() {
             </SheetTrigger>
             <SheetContent side="right" className="flex flex-col">
               <SheetHeader>
-                <SheetTitle />
+                <SheetTitle className="sr-only">메인 메뉴</SheetTitle>
               </SheetHeader>
 
               <div className="mx-4 mt-8 flex flex-col gap-6">

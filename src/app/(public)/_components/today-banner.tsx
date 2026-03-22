@@ -7,16 +7,16 @@ export function TodayBanner() {
   const today = "오늘 19:00 — Moonflower Live";
 
   return (
-    <section className="border-b bg-secondary/40 w-full">
+    <section aria-label="영업 시간 및 오늘의 이벤트" className="border-b bg-secondary/40 w-full">
       <div className="container mx-auto flex flex-col items-start gap-3 py-4 md:flex-row md:items-center md:justify-between">
         <div className="flex items-center gap-2">
-          <Clock className="h-4 w-4" />
+          <Clock aria-hidden="true" className="h-4 w-4" />
           <p className="text-sm">
             {isOpen ? "Open Today" : "Closed Today"} · {hours}
           </p>
         </div>
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <CalendarDays className="h-4 w-4" />
+          <CalendarDays aria-hidden="true" className="h-4 w-4" />
           <span>{today}</span>
         </div>
       </div>
