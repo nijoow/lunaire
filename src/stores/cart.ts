@@ -1,21 +1,27 @@
-"use client";
+'use client';
 
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 export type CartItem = {
+  /** id + optionLabel 조합으로 장바구니 내 고유 식별 */
+  cartKey: string;
   id: string;
   name: string;
   price: number;
-  quantity: number; // ← quantity로 변경
+  quantity: number;
+  optionLabel?: string; // e.g. "Ice · Large · 바닐라"
 };
 
 type CartState = {
   tableNo?: string;
   items: CartItem[];
   setTable: (no: string) => void;
-  add: (item: Omit<CartItem, "quantity">, quantity?: number) => void;
-  updateQuantity: (id: string, quantity: number) => void;
+  add: (
+    item: Omit<CartItem, 'cartKey' | 'quantity'>,
+    quantity?: number,
+  ) => void;
+  updateQuantity: (cartKey: string, quantity: number) => void;
   clear: () => void;
   subtotal: () => number;
 };
@@ -29,21 +35,26 @@ export const useCart = create<CartState>()(
 
       add: (item, qty = 1) =>
         set((state) => {
-          const found = state.items.find((i) => i.id === item.id);
+          const cartKey = `${item.id}__${item.optionLabel ?? ''}`;
+          const found = state.items.find((i) => i.cartKey === cartKey);
           if (found) {
             return {
               items: state.items.map((i) =>
-                i.id === item.id ? { ...i, quantity: i.quantity + qty } : i
+                i.cartKey === cartKey
+                  ? { ...i, quantity: i.quantity + qty }
+                  : i,
               ),
             };
           }
-          return { items: [...state.items, { ...item, quantity: qty }] };
+          return {
+            items: [...state.items, { ...item, cartKey, quantity: qty }],
+          };
         }),
 
-      updateQuantity: (id, quantity) =>
+      updateQuantity: (cartKey, quantity) =>
         set((state) => ({
           items: state.items
-            .map((i) => (i.id === id ? { ...i, quantity } : i))
+            .map((i) => (i.cartKey === cartKey ? { ...i, quantity } : i))
             .filter((i) => i.quantity > 0),
         })),
 
@@ -53,7 +64,7 @@ export const useCart = create<CartState>()(
         get().items.reduce((sum, i) => sum + i.price * i.quantity, 0),
     }),
     {
-      name: "lunaire-cart",
-    }
-  )
+      name: 'lunaire-cart',
+    },
+  ),
 );

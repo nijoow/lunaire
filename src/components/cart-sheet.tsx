@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import {
   Sheet,
@@ -11,7 +12,7 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { useCart } from '@/stores/cart';
-import { Minus, Plus, ShoppingCart, Trash2 } from 'lucide-react';
+import { Minus, Plus, ShoppingBag, ShoppingCart, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 
 export function CartSheet() {
@@ -39,80 +40,101 @@ export function CartSheet() {
         </SheetHeader>
 
         {items.length === 0 ? (
-          <div className="flex flex-1 flex-col items-center justify-center gap-2">
-            <ShoppingCart className="text-muted-foreground h-12 w-12 opacity-20" />
+          <div className="flex flex-1 flex-col items-center justify-center gap-4">
+            <div className="bg-muted flex h-20 w-20 items-center justify-center rounded-full">
+              <ShoppingBag className="text-muted-foreground h-10 w-10 opacity-30" />
+            </div>
             <p className="text-muted-foreground text-sm">
               장바구니가 비어 있습니다.
             </p>
           </div>
         ) : (
           <>
-            <div className="mt-8 flex-1 overflow-hidden">
-              <div className="space-y-4 pr-1">
+            <ScrollArea className="mt-6 flex-1 px-4">
+              <div className="space-y-4">
                 {items.map((item) => (
                   <div
                     key={item.id}
-                    className="flex items-start justify-between gap-4"
+                    className="flex flex-col gap-3 rounded-2xl border p-4 shadow-sm"
                   >
-                    <div className="flex-1 space-y-1">
-                      <h4 className="text-sm font-medium">{item.name}</h4>
-                      <p className="text-muted-foreground text-sm">
-                        ₩{item.price.toLocaleString()}
-                      </p>
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex-1 space-y-1">
+                        <h4 className="leading-none font-semibold">
+                          {item.name}
+                        </h4>
+                        {item.optionLabel && (
+                          <p className="text-muted-foreground text-xs">
+                            {item.optionLabel}
+                          </p>
+                        )}
+                        <p className="text-muted-foreground text-sm">
+                          ₩{item.price.toLocaleString()}
+                        </p>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="text-muted-foreground hover:bg-destructive/10 hover:text-destructive h-8 w-8 rounded-full"
+                        onClick={() => updateQuantity(item.cartKey, 0)}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <div className="flex items-center rounded-lg border">
+
+                    <div className="mt-1 flex items-center justify-between">
+                      <p className="text-primary font-medium">
+                        ₩{(item.price * item.quantity).toLocaleString()}
+                      </p>
+                      <div className="bg-muted/50 flex items-center rounded-full border">
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-8 w-8 rounded-none"
+                          className="hover:bg-accent h-8 w-8 rounded-full"
                           onClick={() =>
-                            updateQuantity(item.id, item.quantity - 1)
+                            updateQuantity(item.cartKey, item.quantity - 1)
                           }
                         >
                           <Minus className="h-3 w-3" />
                         </Button>
-                        <span className="w-8 text-center text-xs">
+                        <span className="w-8 text-center text-sm font-medium">
                           {item.quantity}
                         </span>
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-8 w-8 rounded-none"
+                          className="hover:bg-accent h-8 w-8 rounded-full"
                           onClick={() =>
-                            updateQuantity(item.id, item.quantity + 1)
+                            updateQuantity(item.cartKey, item.quantity + 1)
                           }
                         >
                           <Plus className="h-3 w-3" />
                         </Button>
                       </div>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="text-muted-foreground hover:text-destructive h-8 w-8"
-                        onClick={() => updateQuantity(item.id, 0)}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
                     </div>
                   </div>
                 ))}
               </div>
-            </div>
+            </ScrollArea>
 
             <div className="mt-auto space-y-4 pt-6">
               <Separator />
-              <div className="flex items-center justify-between font-medium">
-                <span>합계</span>
-                <span>₩{subtotal().toLocaleString()}</span>
+              <div className="flex items-center justify-between px-4 text-lg font-bold">
+                <span>총 결제 금액</span>
+                <span className="text-primary">
+                  ₩{subtotal().toLocaleString()}
+                </span>
               </div>
-              <SheetFooter className="flex-col gap-2 sm:flex-col">
-                <Button asChild className="w-full rounded-xl" size="lg">
+              <SheetFooter className="flex-col gap-3 sm:flex-col">
+                <Button
+                  asChild
+                  className="w-full rounded-xl py-6 text-base"
+                  size="lg"
+                >
                   <Link href="/order/checkout">주문하기</Link>
                 </Button>
                 <Button
                   variant="ghost"
-                  className="w-full text-xs"
+                  className="text-muted-foreground w-full text-xs hover:bg-transparent hover:underline"
                   onClick={clear}
                 >
                   장바구니 비우기
