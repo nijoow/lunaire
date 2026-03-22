@@ -14,27 +14,30 @@ import {
 import { useCart } from '@/stores/cart';
 import { Minus, Plus, ShoppingBag, ShoppingCart, Trash2 } from 'lucide-react';
 import Link from 'next/link';
+import { useState } from 'react';
 
-export function CartSheet() {
+export const CartSheet = () => {
   const { items, updateQuantity, clear, subtotal } = useCart();
+  const [open, setOpen] = useState(false);
   const totalCount = items.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant="outline" size="icon" className="relative rounded-full">
-          <ShoppingCart className="h-5 w-5" />
+        <Button variant="outline" size="icon" className="relative rounded-full cursor-pointer">
+          <ShoppingCart className="h-5 w-5" aria-hidden="true" />
           {totalCount > 0 && (
             <span className="bg-primary text-primary-foreground absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full text-[10px] font-bold">
               {totalCount}
             </span>
           )}
+          <span className="sr-only">장바구니 ({totalCount}개)</span>
         </Button>
       </SheetTrigger>
       <SheetContent className="flex w-full flex-col sm:max-w-md">
         <SheetHeader>
           <SheetTitle className="flex items-center gap-2">
-            <ShoppingCart className="h-5 w-5" />
+            <ShoppingCart className="h-5 w-5" aria-hidden="true" />
             장바구니
           </SheetTitle>
         </SheetHeader>
@@ -42,7 +45,7 @@ export function CartSheet() {
         {items.length === 0 ? (
           <div className="flex flex-1 flex-col items-center justify-center gap-4">
             <div className="bg-muted flex h-20 w-20 items-center justify-center rounded-full">
-              <ShoppingBag className="text-muted-foreground h-10 w-10 opacity-30" />
+              <ShoppingBag className="text-muted-foreground h-10 w-10 opacity-30" aria-hidden="true" />
             </div>
             <p className="text-muted-foreground text-sm">
               장바구니가 비어 있습니다.
@@ -54,7 +57,7 @@ export function CartSheet() {
               <div className="space-y-4">
                 {items.map((item) => (
                   <div
-                    key={item.id}
+                    key={item.cartKey}
                     className="flex flex-col gap-3 rounded-2xl border p-4 shadow-sm"
                   >
                     <div className="flex items-start justify-between gap-4">
@@ -74,10 +77,11 @@ export function CartSheet() {
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="text-muted-foreground hover:bg-destructive/10 hover:text-destructive h-8 w-8 rounded-full"
+                        aria-label={`${item.name} 삭제`}
+                        className="text-muted-foreground hover:bg-destructive/10 hover:text-destructive h-8 w-8 rounded-full cursor-pointer"
                         onClick={() => updateQuantity(item.cartKey, 0)}
                       >
-                        <Trash2 className="h-4 w-4" />
+                        <Trash2 className="h-4 w-4" aria-hidden="true" />
                       </Button>
                     </div>
 
@@ -89,25 +93,27 @@ export function CartSheet() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="hover:bg-accent h-8 w-8 rounded-full"
+                          aria-label="수량 감소"
+                          className="hover:bg-accent h-8 w-8 rounded-full cursor-pointer"
                           onClick={() =>
                             updateQuantity(item.cartKey, item.quantity - 1)
                           }
                         >
-                          <Minus className="h-3 w-3" />
+                          <Minus className="h-3 w-3" aria-hidden="true" />
                         </Button>
-                        <span className="w-8 text-center text-sm font-medium">
+                        <span className="w-8 text-center text-sm font-medium" aria-live="polite">
                           {item.quantity}
                         </span>
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="hover:bg-accent h-8 w-8 rounded-full"
+                          aria-label="수량 증가"
+                          className="hover:bg-accent h-8 w-8 rounded-full cursor-pointer"
                           onClick={() =>
                             updateQuantity(item.cartKey, item.quantity + 1)
                           }
                         >
-                          <Plus className="h-3 w-3" />
+                          <Plus className="h-3 w-3" aria-hidden="true" />
                         </Button>
                       </div>
                     </div>
@@ -127,14 +133,16 @@ export function CartSheet() {
               <SheetFooter className="flex-col gap-3 sm:flex-col">
                 <Button
                   asChild
-                  className="w-full rounded-xl py-6 text-base"
+                  className="w-full rounded-xl py-6 text-base cursor-pointer"
                   size="lg"
                 >
-                  <Link href="/order/checkout">주문하기</Link>
+                  <Link href="/order/checkout" onClick={() => setOpen(false)}>
+                    주문하기
+                  </Link>
                 </Button>
                 <Button
                   variant="ghost"
-                  className="text-muted-foreground w-full text-xs hover:bg-transparent hover:underline"
+                  className="text-muted-foreground w-full text-xs hover:bg-transparent hover:underline cursor-pointer"
                   onClick={clear}
                 >
                   장바구니 비우기
@@ -146,4 +154,4 @@ export function CartSheet() {
       </SheetContent>
     </Sheet>
   );
-}
+};

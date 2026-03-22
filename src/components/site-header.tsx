@@ -11,9 +11,12 @@ import {
 import { Menu } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
 import { CartSheet } from './cart-sheet';
 
-export function SiteHeader() {
+export const SiteHeader = () => {
+  const [mobileOpen, setMobileOpen] = useState(false);
+
   const navLinks = [
     { href: '/menu', label: 'Menu' },
     { href: '/order', label: 'Order' },
@@ -55,15 +58,15 @@ export function SiteHeader() {
           <CartSheet />
 
           {/* Mobile Menu */}
-          <Sheet>
+          <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
             <SheetTrigger asChild>
               <Button
                 variant="ghost"
                 size="icon"
-                className="md:hidden"
-                aria-label="Open Menu"
+                className="md:hidden cursor-pointer"
+                aria-label="메뉴 열기"
               >
-                <Menu className="h-5 w-5" />
+                <Menu className="h-5 w-5" aria-hidden="true" />
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="flex flex-col">
@@ -71,21 +74,25 @@ export function SiteHeader() {
                 <SheetTitle className="sr-only">메인 메뉴</SheetTitle>
               </SheetHeader>
 
-              <div className="mx-4 mt-8 flex flex-col gap-6">
+              <nav
+                aria-label="모바일 내비게이션"
+                className="mx-4 mt-8 flex flex-col gap-6"
+              >
                 {navLinks.map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
                     className="hover:text-primary text-lg font-medium"
+                    onClick={() => setMobileOpen(false)}
                   >
                     {link.label}
                   </Link>
                 ))}
-              </div>
+              </nav>
             </SheetContent>
           </Sheet>
         </div>
       </div>
     </header>
   );
-}
+};
