@@ -16,12 +16,14 @@ export type CartItem = {
 type CartState = {
   tableNo?: string;
   items: CartItem[];
+  placedOrderIds: string[];
   setTable: (no: string) => void;
   add: (
     item: Omit<CartItem, 'cartKey' | 'quantity'>,
     quantity?: number,
   ) => void;
   updateQuantity: (cartKey: string, quantity: number) => void;
+  addPlacedOrderId: (id: string) => void;
   clear: () => void;
   subtotal: () => number;
 };
@@ -31,6 +33,7 @@ export const useCart = create<CartState>()(
     (set, get) => ({
       tableNo: undefined,
       items: [],
+      placedOrderIds: [],
       setTable: (no) => set({ tableNo: no }),
 
       add: (item, qty = 1) =>
@@ -56,6 +59,11 @@ export const useCart = create<CartState>()(
           items: state.items
             .map((i) => (i.cartKey === cartKey ? { ...i, quantity } : i))
             .filter((i) => i.quantity > 0),
+        })),
+
+      addPlacedOrderId: (id) =>
+        set((state) => ({
+          placedOrderIds: [id, ...state.placedOrderIds].slice(0, 20), // 최근 20개만 보관
         })),
 
       clear: () => set({ items: [] }),

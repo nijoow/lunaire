@@ -20,6 +20,7 @@ export const SiteHeader = () => {
   const navLinks = [
     { href: '/menu', label: 'Menu' },
     { href: '/order', label: 'Order' },
+    { href: '/order/my-order', label: 'My Order' },
     { href: '/space', label: 'Space' },
     { href: '/events', label: 'Events' },
     { href: '/news', label: 'News' },

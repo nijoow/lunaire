@@ -38,6 +38,8 @@ export default function CheckoutPage() {
 
       const order = await createOrder(orderData, orderItems);
 
+      useCart.getState().addPlacedOrderId(order.id);
+
       clear();
       toast.success('주문이 완료되었습니다!');
       router.push(`/order/status/${order.id}`);
