@@ -7,6 +7,7 @@ import {
   LogOut,
   Newspaper,
   Settings,
+  ShoppingBag,
   User,
 } from 'lucide-react';
 import Image from 'next/image';
@@ -43,6 +44,11 @@ const navMain = [
     title: 'Overview',
     url: '/admin/dashboard',
     icon: LayoutDashboard,
+  },
+  {
+    title: 'Orders',
+    url: '/admin/orders',
+    icon: ShoppingBag,
   },
   {
     title: 'Menu',

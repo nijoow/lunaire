@@ -51,3 +51,27 @@ export async function updateOrderStatus(
 
   if (error) throw error;
 }
+
+export async function getRecentOrders(limit = 50) {
+  const { data, error } = await supabase
+    .from('orders')
+    .select('*, order_items(*, menu_items(name))')
+    .order('created_at', { ascending: false })
+    .limit(limit);
+
+  if (error) throw error;
+  return data;
+}
+
+export async function getOrdersByIds(ids: string[]) {
+  if (ids.length === 0) return [];
+
+  const { data, error } = await supabase
+    .from('orders')
+    .select('*, order_items(*, menu_items(name))')
+    .in('id', ids)
+    .order('created_at', { ascending: false });
+
+  if (error) throw error;
+  return data;
+}
