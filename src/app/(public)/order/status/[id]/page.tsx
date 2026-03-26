@@ -3,6 +3,7 @@
 import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { getOrderWithItems } from '@/domain/order/order.service';
+import { supabase } from '@/lib/supabase';
 import {
   ArrowLeft,
   CheckCircle2,
@@ -91,6 +92,34 @@ export default function OrderStatusPage({ params }: Props) {
     };
 
     fetchOrder();
+  }, [id]);
+
+  useEffect(() => {
+    const channel = supabase
+      .channel(`order-status-${id}`)
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'orders',
+          filter: `id=eq.${id}`,
+        },
+        (payload) => {
+          setOrder((currentOrder) => {
+            if (!currentOrder) return null;
+            return {
+              ...currentOrder,
+              status: payload.new.status,
+            };
+          });
+        },
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [id]);
 
   if (loading) {
@@ -185,8 +214,7 @@ export default function OrderStatusPage({ params }: Props) {
 
       <div className="mt-12 flex flex-col gap-4">
         <p className="text-muted-foreground text-center text-xs">
-          주문 상태가 변경되면 자동으로 페이지에 반영됩니다. (자동 업데이트 기능
-          준비 중)
+          주문 상태가 변경되면 자동으로 페이지에 반영됩니다.
         </p>
       </div>
     </main>
